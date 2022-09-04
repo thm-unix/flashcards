@@ -12,7 +12,6 @@
 #include "about.h"
 #include "ui_choosestack.h"
 
-
 QJsonObject config;
 stackviewer* viewer;
 
@@ -126,21 +125,23 @@ void choosestack::makeConnections(Ui::choosestack* ui) {
     this->connect(ui->openPushButton, &QPushButton::clicked, this, [this, ui]() {
         QString stackPath = QFileDialog::getOpenFileName(this, "Open stack", getenv("HOME"), "Stacks (*.json)");
 
-        QJsonArray stacks = config["stacks"].toArray();
-        stacks.append(QJsonValue(stackPath));
-        config["stacks"] = QJsonValue(stacks);
+        if (!stackPath.isEmpty()) {
+            QJsonArray stacks = config["stacks"].toArray();
+            stacks.append(QJsonValue(stackPath));
+            config["stacks"] = QJsonValue(stacks);
 
-        QJsonDocument doc(config);
-        QFile jsonFile("config.json");
-        jsonFile.open(QFile::WriteOnly);
-        jsonFile.write(doc.toJson(QJsonDocument::Indented));
-        jsonFile.close();
+            QJsonDocument doc(config);
+            QFile jsonFile("config.json");
+            jsonFile.open(QFile::WriteOnly);
+            jsonFile.write(doc.toJson(QJsonDocument::Indented));
+            jsonFile.close();
 
-        showViewer(new QListWidgetItem(stackPath));
+            showViewer(new QListWidgetItem(stackPath));
 
-        readConfig();
-        ui->stacksListWidget->clear();
-        listStacks(ui->stacksListWidget);
+            readConfig();
+            ui->stacksListWidget->clear();
+            listStacks(ui->stacksListWidget);
+        }
     });
 
     this->connect(ui->aboutPushButton, &QPushButton::clicked, this, []() {
