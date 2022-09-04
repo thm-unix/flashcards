@@ -19,5 +19,5 @@ If you want to learn anything (i.e., foreign words) quickly and effectively, you
 ```
 
 # Screenshots
-<img src="scr-main.png">
-<img src="scr-stackviewer.png">
+<img src="scr-main.png" width="225" height="268">
+<img src="scr-stackviewer.png" width="321" height="281">
